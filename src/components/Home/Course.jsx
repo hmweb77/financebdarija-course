@@ -54,7 +54,7 @@ export default function Course() {
       <Image className="mt-4  " src={arrow} alt="arrow"/>
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-24 mt-4 rounded-xl"
-        onClick={() => router.push("/signup")}
+        onClick={() => router.push("/")}
       >
         ابدأ الآن
       </button>

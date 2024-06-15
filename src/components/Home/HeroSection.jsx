@@ -66,7 +66,7 @@ const HeroSection = () => {
 
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl inline-flex items-center"
-              onClick={() => router.push("/signup")}
+              onClick={() => router.push("/")}
             >
               
               ابدأ الآن
