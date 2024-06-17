@@ -28,7 +28,7 @@ export default function Feedback() {
     <section className="bg-white px-6 py-24 sm:py-32 lg:px-8 " dir="rtl">
               <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">شهادات عملائنا</h1>
       {feedbackClients.map((feedback) => (
-        <figure className="mx-auto max-w-2xl">
+        <figure key={feedback.index} className="mx-auto max-w-2xl">
           <blockquote className="mt-10 text-xl font-semibold leading-8 tracking-tight text-gray-900 sm:text-2xl sm:leading-9">
             <p>{feedback.description}</p>
           </blockquote>

@@ -1,4 +1,6 @@
 "use client"
+import { useEffect } from 'react';
+import Link from "next/link";
 import Image from "next/image";
 import arrow from "../../../assets/yal.png"
 const directory = {
@@ -26,8 +28,21 @@ const directory = {
 };
 
 export default function Course() {
+  useEffect(() => {
+    // Dynamically load the Podia script after the component mounts
+    const script = document.createElement('script');
+    script.src = 'https://cdn.podia.com/embeds.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup script if the component unmounts
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col py-8 items-center bg-custom " dir="rtl">
+    <div id="course" className="flex flex-col py-8 items-center bg-custom " dir="rtl">
       <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
         ما الذي ستتعلمه في الدورة
       </h1>
@@ -57,7 +72,9 @@ export default function Course() {
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-24 mt-4 rounded-xl"
 
       >
-        ابدأ الآن
+          <Link href="https://www.financebdarija.co/de5a4eed-711e-4d01-9af9-f90183388a54" data-podia-embed="link">
+          تعلم الاستثمار ببورصة الدارالبيضاء من الصفر
+        </Link>
       </button>
     </div>
   );

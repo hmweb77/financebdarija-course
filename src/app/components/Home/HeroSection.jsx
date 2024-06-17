@@ -3,16 +3,29 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 import FirstImage from "../../../assets/grow.jpg";
-
+import { useEffect } from 'react';
+import Link from "next/link";
 
 
 const HeroSection = () => {
+  useEffect(() => {
+    // Dynamically load the Podia script after the component mounts
+    const script = document.createElement('script');
+    script.src = 'https://cdn.podia.com/embeds.js';
+    script.async = true;
+    document.body.appendChild(script);
 
+    return () => {
+      // Cleanup script if the component unmounts
+      document.body.removeChild(script);
+    };
+  }, []);
 
 
 
   return (
     <motion.section
+    id="about"
       className="overflow-hidden py-5 bg-white"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -68,8 +81,10 @@ const HeroSection = () => {
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl inline-flex items-center"
 
             >
-              
-              ابدأ الآن
+                <Link href="https://www.financebdarija.co/de5a4eed-711e-4d01-9af9-f90183388a54" data-podia-embed="link">
+           ابدأ الآن
+        </Link>
+            
             </button>
           </div>
         </div>
