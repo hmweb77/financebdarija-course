@@ -3,10 +3,11 @@ import img1 from "../../../public/assets/euro.jpg";
 import img2 from "../../../public/assets/upp.png";
 import img3 from "../../../public/assets/podcas.png";
 import Image from "next/image";
+import Link from "next/link"; // Import Link
+
 export const PricingData = [
   {
     title: "بورصة الدار البيضاء",
-
     price: 99,
     description: [
       "دورات تفصيلية حول كيفية الاستثمار في بورصة ",
@@ -14,10 +15,10 @@ export const PricingData = [
       " فهم آليات السوق",
     ],
     Img: img2,
+    href: "https://www.financebdarija.co/de5a4eed-711e-4d01-9af9-f90183388a54",
   },
   {
-    title: "التمويل الشخصي",
-
+    title: "الاستشارات المالية الشخصية  ",
     price: 40,
     description: [
       "نصائح حول كيفية إدارة الميزانية الشخصية و الادخار ",
@@ -25,6 +26,7 @@ export const PricingData = [
       "  إرشادات حول كيفيةالتخطيط المالي",
     ],
     Img: img1,
+    href: "https://www.financebdarija.co/consulting",
   },
   {
     title: "بودكاست ",
@@ -35,6 +37,7 @@ export const PricingData = [
       "بودكاست للإستثمار بالبورصة المحلية أو العالمية",
     ],
     Img: img3,
+    href: "https://www.financebdarija.co/podcast",
   },
 ];
 
@@ -47,23 +50,28 @@ const PricingComponent = () => {
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {PricingData.map((plan, index) => (
-          <div key={index} className=" bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-semibold text-center mb-4 flex items-center justify-center">
-              <Image src={plan.Img} alt="Image" width={50} className="ml-2" />
-              {plan.title}
-            </h2>
-            <p className="text-3xl text-center font-bold mb-4">${plan.price}</p>
+          <Link href={plan.href} key={index} passHref>
+            <div className=" bg-white rounded-xl shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-300">
+              <h2 className="text-xl font-semibold text-center mb-4 flex items-center justify-center">
+                <Image src={plan.Img} alt="Image" width={50} className="ml-2" />
+                {plan.title}
+              </h2>
+              <p className="text-3xl text-center font-bold mb-4">
+                ${plan.price}
+              </p>
 
-            <hr className="my-4" />
-            <ul className="text-sm mb-6">
-              <li>✔ {plan.description[0]}</li>
-              <li>✔{plan.description[1]}</li>
-              <li>✔ {plan.description[2]}</li>
-            </ul>
-            <button className="w-full bg-blue-500 text-white rounded-full py-2 px-4 hover:bg-blue-600">
-              اشتراك
-            </button>
-          </div>
+              <hr className="my-4" />
+
+              <ul className="text-sm mb-6">
+                <li>✔ {plan.description[0]}</li>
+                <li>✔ {plan.description[1]}</li>
+                <li>✔ {plan.description[2]}</li>
+              </ul>
+              <button className="w-full bg-blue-500 text-white rounded-full py-2 px-4 hover:bg-blue-600">
+                اشتراك
+              </button>
+            </div>
+          </Link>
         ))}
       </div>
     </div>

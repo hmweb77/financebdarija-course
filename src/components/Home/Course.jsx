@@ -1,5 +1,6 @@
 import Image from "next/image";
-import arrow from "../../../public/assets/yal.png"
+import arrow from "../../../public/assets/yal.png";
+import Link from "next/link";
 const directory = {
   " مفاهيم و تعاريف حول البورصة": [
     { id: 1, name: "مقدمة" },
@@ -26,7 +27,7 @@ const directory = {
 
 export default function Course() {
   return (
-    <div className="flex flex-col py-8 items-center bg-custom " dir="rtl">
+    <div className="flex flex-col py-8 items-center bg-blue-300 " dir="rtl">
       <h1 className="text-3xl font-bold text-blue-600 text-center mb-6">
         ما الذي ستتعلمه في الدورة
       </h1>
@@ -51,13 +52,12 @@ export default function Course() {
           </div>
         ))}
       </nav>
-      <Image className="mt-4  " src={arrow} alt="arrow"/>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-24 mt-4 rounded-xl"
-        onClick={() => router.push("/")}
-      >
-        ابدأ الآن
-      </button>
+      <Image className="mt-4  " src={arrow} alt="arrow" />
+      <Link href="https://www.financebdarija.co/de5a4eed-711e-4d01-9af9-f90183388a54">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-6 px-24 mt-4 rounded-xl">
+          ابدأ الآن
+        </button>
+      </Link>
     </div>
   );
 }
