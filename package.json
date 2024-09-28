@@ -23,6 +23,7 @@
     "react-dom": "^18",
     "react-horizontal-scrolling-menu": "^7.0.0",
     "react-i18next": "^14.1.1",
+    "sharp": "^0.33.5",
     "swiper": "^11.1.4"
   },
   "devDependencies": {
