@@ -18,8 +18,8 @@ export const PricingData = [
     href: "https://www.financebdarija.co/de5a4eed-711e-4d01-9af9-f90183388a54",
   },
   {
-    title: "الاستشارات المالية الشخصية  ",
-    price: 100,
+    title: "الاستشارات الشخصية  ",
+    price: 150,
     description: [
       "نصائح حول كيفية إدارة الميزانية الشخصية و الادخار ",
       "كيفية تحقيق الأهداف المالية",
@@ -30,14 +30,14 @@ export const PricingData = [
   },
   {
     title: "بودكاست ",
-    price: 10,
+    price: 19,
     description: [
       "بودكاست خاص ب أصحاب بيتريون",
       "الجواب على جميع الأسئلة ديالكم على الخاص",
       "بودكاست للإستثمار بالبورصة المحلية أو العالمية",
     ],
     Img: img3,
-    href: "https://www.financebdarija.co/podcast",
+    href: "https://www.patreon.com/moroccan_financial_show",
   },
 ];
 
