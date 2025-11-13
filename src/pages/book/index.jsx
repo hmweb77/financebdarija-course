@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 import { Star, ChevronDown } from "lucide-react";
 import { collection, addDoc, query, orderBy, limit, getDocs, startAfter } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+
+
+import EmailVerificationModal from "@/components/book/EmailVerificationModal";
 import ReviewModal from "../../components/book/ReviewModal";
 
-import EmailVerificationModal from "../../components/Book/EmailVerificationModal";
 
 const BookPage = () => {
   const [reviews, setReviews] = useState([]);
