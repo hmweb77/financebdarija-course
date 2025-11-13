@@ -62,7 +62,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         sender: {
           name: "FinanceBdarija",
-          email: process.env.BREVO_SENDER_EMAIL || "noreply@financebdarija.com"
+          email: process.env.BREVO_SENDER_EMAIL || "contact@hmwebs.com"
         },
         to: [
           {
