@@ -57,7 +57,7 @@ const Navbar = () => {
                 href="/consulting"
                 className="py-2 px-2 text-white rounded-lg  font-semibold hover:bg-blue-900 hover:text-gray-300 "
               >
-                الاستشارات المالية
+                الاستشارات الشخصية
               </Link>
               <Link
                 href="/book"

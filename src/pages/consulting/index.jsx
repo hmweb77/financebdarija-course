@@ -83,7 +83,7 @@ const ConsultingPage = () => {
                   >
                     <DollarSign className="w-8 h-8 text-blue-600 mr-2" />
                     <span className="text-2xl font-bold text-blue-600">
-                      100
+                      150
                     </span>
                   </motion.div>
                   <span className="text-gray-600 ml-3">للجلسة</span>
