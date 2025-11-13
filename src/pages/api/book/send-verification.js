@@ -50,8 +50,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: "Email service not configured" });
     }
 
-    console.log("Sending email to:", email);
-    console.log("Using Brevo API key:", process.env.BREVO_API_KEY.substring(0, 10) + "...");
+
 
     // Send email with Brevo
     const response = await fetch("https://api.brevo.com/v3/smtp/email", {
@@ -187,7 +186,7 @@ export default async function handler(req, res) {
       throw new Error(data.message || "Failed to send email");
     }
 
-    console.log("Email sent successfully via Brevo:", data);
+
     res.status(200).json({ message: "Verification email sent successfully" });
   } catch (error) {
     console.error("Error sending verification:", error);

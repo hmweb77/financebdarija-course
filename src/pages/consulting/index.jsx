@@ -40,7 +40,7 @@ const ConsultingPage = () => {
   return (
     <div
       dir="rtl"
-      className="min-h-screen relative overflow-hidden bg-gradient-to-b from-white  to-blue-300"
+      className="min-h-screen relative overflow-hidden bg-gradient-to-b from-white to-blue-300"
     >
       {/* Main Content */}
       <motion.div
@@ -134,23 +134,23 @@ const ConsultingPage = () => {
               </motion.div>
             </motion.div>
           </div>
+
           {/* Google Form */}
           <motion.div
             variants={itemVariants}
-            className="bg-white/90 backdrop-blur rounded-lg shadow-xl p-6 flex justify-center items-center mx-auto"
+            className="bg-white/90 backdrop-blur rounded-lg shadow-xl p-6 flex justify-center items-center mx-auto mt-12"
           >
-              
-            <div className="max-w-3xl mx-auto">
-            <iframe
-              src="https://tally.so/embed/n9JNz1?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-              width="100%"
-              height="1500"
-              className="border-0"
-              title="Contact Form"
-            >
-              Loading...
-            </iframe>
-          </div>
+            <div className="w-full max-w-3xl mx-auto">
+              <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSfGhYZ5wrysuzlRJIL45rAljOp778InuAaDHNC9rb1_JRKUlw/viewform?embedded=true"
+                width="100%"
+                height="1500"
+                className="border-0 w-full"
+                title="Consulting Booking Form"
+              >
+                Loading…
+              </iframe>
+            </div>
           </motion.div>
         </div>
       </motion.div>
