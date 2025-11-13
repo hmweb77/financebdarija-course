@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { CheckCircle, XCircle, Loader2 } from "lucide-react";
-import ReviewModal from "@/components/Book/ReviewModal";
+import ReviewModal from "../../components/book/ReviewModal";
 
 const VerifyPage = () => {
   const router = useRouter();
