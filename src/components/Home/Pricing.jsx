@@ -1,9 +1,11 @@
+"use client"
+
 import React from "react";
 import img1 from "../../../public/assets/euro.jpg";
 import img2 from "../../../public/assets/upp.png";
 import img3 from "../../../public/assets/podcas.png";
 import Image from "next/image";
-import Link from "next/link"; // Import Link
+import Link from "next/link";
 
 export const PricingData = [
   {
@@ -17,6 +19,7 @@ export const PricingData = [
     Img: img2,
     href: "https://www.financebdarija.co/de5a4eed-711e-4d01-9af9-f90183388a54",
   },
+  
   {
     title: "الاستشارات الشخصية  ",
     price: 150,
@@ -27,6 +30,17 @@ export const PricingData = [
     ],
     Img: img1,
     href: "/consulting",
+  },
+  {
+    title: "البورصة الأمريكية",
+    price: 99,
+    description: [
+      "دورة شاملة للاستثمار في الأسهم الأمريكية",
+      "استراتيجيات التداول في السوق الأمريكي",
+      "تحليل الشركات العالمية واختيار الأسهم",
+    ],
+    Img: img2,
+    href: "https://www.financebdarija.co/77390c82-3b09-453f-9a67-8680b9c9cac0",
   },
   {
     title: "بودكاست ",
@@ -48,10 +62,10 @@ const PricingComponent = () => {
         العروض
       </h1>
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {PricingData.map((plan, index) => (
-          <Link href={plan.href} key={index} passHref target="blank">
-            <div className=" bg-white rounded-xl shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-300">
+          <Link href={plan.href} key={index} passHref target={plan.href.startsWith('http') ? "blank" : "_self"}>
+            <div className="bg-white rounded-xl shadow-md p-6 cursor-pointer hover:shadow-lg transition-shadow duration-300">
               <h2 className="text-xl font-semibold text-center mb-4 flex items-center justify-center">
                 <Image src={plan.Img} alt="Image" width={50} className="ml-2" />
                 {plan.title}

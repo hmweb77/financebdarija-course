@@ -40,8 +40,7 @@ const Navbar = () => {
                 من نحن
               </Link>
               <Link
-                href="https://www.financebdarija.co/de5a4eed-711e-4d01-9af9-f90183388a54"
-                target="blank"
+                href="/courses"
                 className="py-2 px-2 text-white rounded-lg  font-semibold hover:bg-blue-900 hover:text-gray-300 "
               >
                 الدورة
@@ -112,8 +111,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link
-              href="https://www.financebdarija.co/de5a4eed-711e-4d01-9af9-f90183388a54"
-              target="blank"
+              href="/courses"
               onClick={toggleMobileMenu}
               className="block text-sm px-2 py-4 text-white hover:bg-blue-900 hover:text-gray-300 "
             >
