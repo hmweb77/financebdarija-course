@@ -1,24 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Star, ChevronDown } from "lucide-react";
-import { collection, addDoc, query, orderBy, limit, getDocs, startAfter } from "firebase/firestore";
+import { Star, ChevronDown, Loader2 } from "lucide-react";
+import { collection, query, orderBy, limit, getDocs, startAfter } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-
-
-import EmailVerificationModal from "@/components/book/EmailVerificationModal";
-import ReviewModal from "../../components/book/ReviewModal";
 import Image from "next/image";
-
 
 const BookPage = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lastVisible, setLastVisible] = useState(null);
   const [hasMore, setHasMore] = useState(true);
-  const [showEmailModal, setShowEmailModal] = useState(false);
-  const [showReviewModal, setShowReviewModal] = useState(false);
-  const [verifiedEmail, setVerifiedEmail] = useState(null);
   const [averageRating, setAverageRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
 
@@ -27,29 +19,29 @@ const BookPage = () => {
       title: "اصنع ثروتك",
       price: "200 DH",
       description: "دليل عملي بالعربية لفهم مبادئ الحرية المالية، الاستثمار الذكي، وكيفية بناء ثروة مستدامة لتناسب واقع الشباب العربي",
-      preorderLink: "https://docs.google.com/forms/d/e/1FAIpQLSfT8yy5lDc4BsNZzO1KHgtDaTeW5qx2P2Lh86DwhboFXYNcfA/viewform", // Add your actual link
-      image: "/assets/bookAR.png" // Update with actual image path
+      preorderLink: "https://docs.google.com/forms/d/e/1FAIpQLSfT8yy5lDc4BsNZzO1KHgtDaTeW5qx2P2Lh86DwhboFXYNcfA/viewform",
+      image: "/assets/bookAR.png"
     },
     french: {
       title: "Construis ta Richesse",
       price: "200 DH",
       description: "Un guide pratique en français pour comprendre la liberté financière, investir intelligemment et bâtir une richesse durable adaptée à la nouvelle génération",
-      preorderLink: "https://docs.google.com/forms/d/e/1FAIpQLSfT8yy5lDc4BsNZzO1KHgtDaTeW5qx2P2Lh86DwhboFXYNcfA/viewform", // Add your actual link
-      image: "/assets/bookFR.png" // Update with actual image path
+      preorderLink: "https://docs.google.com/forms/d/e/1FAIpQLSfT8yy5lDc4BsNZzO1KHgtDaTeW5qx2P2Lh86DwhboFXYNcfA/viewform",
+      image: "/assets/bookFR.png"
     },
     english: {
       title: "Build Your Wealth",
       price: "200 DH",
       description: "A practical guide in English to mastering financial freedom, smart investing, and creating long-term sustainable wealth for the new generation",
-      preorderLink: "https://docs.google.com/forms/d/e/1FAIpQLSfT8yy5lDc4BsNZzO1KHgtDaTeW5qx2P2Lh86DwhboFXYNcfA/viewform", // Add your actual link
-      image: "/assets/bookEN.png" // Update with actual image path
+      preorderLink: "https://docs.google.com/forms/d/e/1FAIpQLSfT8yy5lDc4BsNZzO1KHgtDaTeW5qx2P2Lh86DwhboFXYNcfA/viewform",
+      image: "/assets/bookEN.png"
     }
   };
 
   const amazonLinks = {
-    arabic: "https://www.amazon.com/dp/B0FL1CKGBX", // Add actual Amazon link
-    french: "https://www.amazon.com/LArgent-sans-Tabou-lind%C3%A9pendance-financi%C3%A8re-ebook/dp/B0DR6SRC61", // Add actual Amazon link
-    english: "https://www.amazon.com/Dirhams-Dreams-financial-freedom-Moroccans/dp/B0FLXQNSC2" // Add actual Amazon link
+    arabic: "https://www.amazon.com/dp/B0FL1CKGBX",
+    french: "https://www.amazon.com/LArgent-sans-Tabou-lind%C3%A9pendance-financi%C3%A8re-ebook/dp/B0DR6SRC61",
+    english: "https://www.amazon.com/Dirhams-Dreams-financial-freedom-Moroccans/dp/B0FLXQNSC2"
   };
 
   useEffect(() => {
@@ -67,13 +59,13 @@ const BookPage = () => {
           collection(db, "bookReviews"),
           orderBy("createdAt", "desc"),
           startAfter(lastVisible),
-          limit(3)
+          limit(6)
         );
       } else {
         q = query(
           collection(db, "bookReviews"),
           orderBy("createdAt", "desc"),
-          limit(3)
+          limit(6)
         );
       }
 
@@ -91,7 +83,7 @@ const BookPage = () => {
       }
 
       setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]);
-      setHasMore(querySnapshot.docs.length === 3);
+      setHasMore(querySnapshot.docs.length === 6);
     } catch (error) {
       console.error("Error fetching reviews:", error);
     } finally {
@@ -114,19 +106,6 @@ const BookPage = () => {
     }
   };
 
-  const handleEmailVerified = (email) => {
-    setVerifiedEmail(email);
-    setShowEmailModal(false);
-    setShowReviewModal(true);
-  };
-
-  const handleReviewSubmitted = () => {
-    setShowReviewModal(false);
-    setVerifiedEmail(null);
-    fetchReviews();
-    calculateAverageRating();
-  };
-
   const renderStars = (rating) => {
     return [...Array(5)].map((_, index) => (
       <Star
@@ -139,116 +118,112 @@ const BookPage = () => {
   };
 
   return (
-    <div
-    className="min-h-screen bg-gradient-to-b from-white to-blue-100"
-    dir="rtl"
-  >
-    {/* Header Section */}
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-12"
-    >
-      <div className="max-w-7xl mx-auto px-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
-          اكتشف نسخ متعددة من كتاب "اصنع ثروتك"
-        </h1>
-        <p className="text-xl text-center opacity-90">
-          لمساعدتك على تحقيق الحرية المالية بلغتك المفضلة
-        </p>
-      </div>
-    </motion.div>
-
-    {/* Books Section - Morocco Pre-order */}
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold text-blue-600 mb-10 text-center">
-        الطلب المسبق - المغرب
-      </h2>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-        {Object.entries(books).map(([key, book]) => (
-          <motion.div
-            key={key}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-            className="flex flex-col bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
-          >
-            {/* Cover */}
-            <div className="relative w-full aspect-[3/4] bg-gray-100">
-              <Image
-                src={book.image}
-                alt={book.title}
-                fill
-                className="object-cover"
-                sizes="(min-width: 1024px) 260px, 80vw"
-              />
-            </div>
-
-            {/* Content */}
-            <div className="flex flex-col flex-1 p-6 text-center">
-              <h3 className="text-2xl font-bold mb-2 text-gray-900">
-                {book.title}
-              </h3>
-              <p className="text-3xl font-extrabold text-blue-600 mb-3">
-                {book.price}
-              </p>
-              <p className="text-gray-600 text-sm leading-relaxed mb-5">
-                {book.description}
-              </p>
-              <a
-                href={book.preorderLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-auto block w-full bg-blue-500 hover:bg-blue-600 text-white text-center py-3 px-6 rounded-full font-semibold transition-colors"
-              >
-                اطلب مسبقاً
-              </a>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Amazon Section */}
-      <div className="bg-white rounded-xl shadow-lg p-8 mb-16">
-        <h2 className="text-3xl font-bold text-blue-600 mb-8 text-center">
-          اطلب من أمازون
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <a
-            href={amazonLinks.arabic}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-lg font-semibold transition-colors"
-          >
-            اصنع ثروتك - Amazon
-          </a>
-          <a
-            href={amazonLinks.french}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-lg font-semibold transition-colors"
-          >
-            Construis ta Richesse - Amazon
-          </a>
-          <a
-            href={amazonLinks.english}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-lg font-semibold transition-colors"
-          >
-            Build Your Wealth - Amazon
-          </a>
+    <div className="min-h-screen bg-gradient-to-b from-white to-blue-100" dir="rtl">
+      {/* Header Section */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-12"
+      >
+        <div className="max-w-7xl mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+            اكتشف نسخ متعددة من كتاب "اصنع ثروتك"
+          </h1>
+          <p className="text-xl text-center opacity-90">
+            لمساعدتك على تحقيق الحرية المالية بلغتك المفضلة
+          </p>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Reviews Section */}
-      <div className="bg-white rounded-xl shadow-lg p-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <div>
-            <h2 className="text-3xl font-bold text-blue-600">التقييمات</h2>
-            <div className="flex items-center gap-2 mt-2">
+      {/* Books Section - Morocco Pre-order */}
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <h2 className="text-3xl font-bold text-blue-600 mb-10 text-center">
+          الطلب المسبق - المغرب
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {Object.entries(books).map(([key, book]) => (
+            <motion.div
+              key={key}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4 }}
+              className="flex flex-col bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+            >
+              {/* Cover */}
+              <div className="relative w-full aspect-[3/4] bg-gray-100">
+                <Image
+                  src={book.image}
+                  alt={book.title}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 260px, 80vw"
+                />
+              </div>
+
+              {/* Content */}
+              <div className="flex flex-col flex-1 p-6 text-center">
+                <h3 className="text-2xl font-bold mb-2 text-gray-900">
+                  {book.title}
+                </h3>
+                <p className="text-3xl font-extrabold text-blue-600 mb-3">
+                  {book.price}
+                </p>
+                <p className="text-gray-600 text-sm leading-relaxed mb-5">
+                  {book.description}
+                </p>
+                <a
+                  href={book.preorderLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-auto block w-full bg-blue-500 hover:bg-blue-600 text-white text-center py-3 px-6 rounded-full font-semibold transition-colors"
+                >
+                  اطلب مسبقاً
+                </a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Amazon Section */}
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-16">
+          <h2 className="text-3xl font-bold text-blue-600 mb-8 text-center">
+            اطلب من أمازون
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <a
+              href={amazonLinks.arabic}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-lg font-semibold transition-colors"
+            >
+              اصنع ثروتك - Amazon
+            </a>
+            <a
+              href={amazonLinks.french}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-lg font-semibold transition-colors"
+            >
+              Construis ta Richesse - Amazon
+            </a>
+            <a
+              href={amazonLinks.english}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-lg font-semibold transition-colors"
+            >
+              Build Your Wealth - Amazon
+            </a>
+          </div>
+        </div>
+
+        {/* Reviews Section - NO ADD BUTTON */}
+        <div className="bg-white rounded-xl shadow-lg p-8">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-blue-600 mb-2">التقييمات</h2>
+            <div className="flex items-center gap-2">
               <div className="flex">
                 {renderStars(Math.round(Number(averageRating) || 0))}
               </div>
@@ -258,77 +233,65 @@ const BookPage = () => {
               <span className="text-gray-600">({totalReviews} تقييم)</span>
             </div>
           </div>
-          <button
-            onClick={() => setShowEmailModal(true)}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
-          >
-            أضف تقييمك
-          </button>
-        </div>
 
-        {/* Reviews List */}
-        <div className="space-y-6">
-          {loading && reviews.length === 0 ? (
-            <p className="text-center text-gray-500">جاري التحميل...</p>
-          ) : reviews.length === 0 ? (
-            <p className="text-center text-gray-500">لا توجد تقييمات بعد</p>
-          ) : (
-            reviews.map((review) => (
-              <motion.div
-                key={review.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="border-b border-gray-200 pb-6 last:border-0"
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <div>
-                    <h4 className="font-semibold text-lg">{review.name}</h4>
-                    <div className="flex gap-1 mt-1">
-                      {renderStars(review.rating)}
+          {/* Reviews List */}
+          <div className="space-y-6">
+            {loading && reviews.length === 0 ? (
+              <div className="flex justify-center py-12">
+                <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+              </div>
+            ) : reviews.length === 0 ? (
+              <p className="text-center text-gray-500 py-12">لا توجد تقييمات بعد</p>
+            ) : (
+              reviews.map((review, index) => (
+                <motion.div
+                  key={review.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="border-b border-gray-200 pb-6 last:border-0"
+                >
+                  <div className="flex items-start justify-between mb-2">
+                    <div>
+                      <h4 className="font-semibold text-lg">{review.name}</h4>
+                      <div className="flex gap-1 mt-1">
+                        {renderStars(review.rating)}
+                      </div>
                     </div>
+                    <span className="text-gray-500 text-sm">
+                      {review.createdAt?.toLocaleDateString("ar-MA")}
+                    </span>
                   </div>
-                  <span className="text-gray-500 text-sm">
-                    {review.createdAt?.toLocaleDateString("ar-MA")}
-                  </span>
-                </div>
-                <p className="text-gray-700">{review.comment}</p>
-              </motion.div>
-            ))
+                  <p className="text-gray-700">{review.comment}</p>
+                </motion.div>
+              ))
+            )}
+          </div>
+
+          {/* Load More Button */}
+          {hasMore && reviews.length > 0 && (
+            <button
+              onClick={() => fetchReviews(true)}
+              disabled={loading}
+              className="mt-6 w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-colors disabled:opacity-50"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  جاري التحميل...
+                </>
+              ) : (
+                <>
+                  تحميل المزيد
+                  <ChevronDown className="w-5 h-5" />
+                </>
+              )}
+            </button>
           )}
         </div>
-
-        {/* Load More Button */}
-        {hasMore && reviews.length > 0 && (
-          <button
-            onClick={() => fetchReviews(true)}
-            disabled={loading}
-            className="mt-6 w-full flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-6 rounded-lg font-semibold transition-colors disabled:opacity-50"
-          >
-            {loading ? "جاري التحميل..." : "تحميل المزيد"}
-            <ChevronDown className="w-5 h-5" />
-          </button>
-        )}
       </div>
     </div>
-
-    {/* Modals */}
-    <EmailVerificationModal
-      isOpen={showEmailModal}
-      onClose={() => setShowEmailModal(false)}
-      onVerified={handleEmailVerified}
-    />
-    <ReviewModal
-      isOpen={showReviewModal}
-      onClose={() => {
-        setShowReviewModal(false);
-        setVerifiedEmail(null);
-      }}
-      email={verifiedEmail}
-      onSubmit={handleReviewSubmitted}
-    />
-  </div>
-);
+  );
 };
 
 export default BookPage;
