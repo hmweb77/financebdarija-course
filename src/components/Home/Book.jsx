@@ -6,7 +6,7 @@ import { collection, query, orderBy, limit, getDocs, startAfter } from "firebase
 import { db } from "@/lib/firebase";
 import Image from "next/image";
 
-const BookPage = () => {
+const BookSection = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lastVisible, setLastVisible] = useState(null);
@@ -38,11 +38,7 @@ const BookPage = () => {
     }
   };
 
-  const amazonLinks = {
-    arabic: "https://www.amazon.com/dp/B0FL1CKGBX",
-    french: "https://www.amazon.com/LArgent-sans-Tabou-lind%C3%A9pendance-financi%C3%A8re-ebook/dp/B0DR6SRC61",
-    english: "https://www.amazon.com/Dirhams-Dreams-financial-freedom-Moroccans/dp/B0FLXQNSC2"
-  };
+ 
 
   useEffect(() => {
     fetchReviews();
@@ -120,25 +116,12 @@ const BookPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-blue-100" dir="rtl">
       {/* Header Section */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-r from-blue-500 to-blue-600 text-white py-12"
-      >
-        <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
-            اكتشف نسخ متعددة من كتاب "اصنع ثروتك"
-          </h1>
-          <p className="text-xl text-center opacity-90">
-            لمساعدتك على تحقيق الحرية المالية بلغتك المفضلة
-          </p>
-        </div>
-      </motion.div>
+    
 
       {/* Books Section - Morocco Pre-order */}
       <div className="max-w-7xl mx-auto px-4 py-12">
         <h2 className="text-3xl font-bold text-blue-600 mb-10 text-center">
-          الطلب المسبق - المغرب
+        اكتشف نسخ متعددة من كتاب "اصنع ثروتك"
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
@@ -186,38 +169,7 @@ const BookPage = () => {
           ))}
         </div>
 
-        {/* Amazon Section */}
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-16">
-          <h2 className="text-3xl font-bold text-blue-600 mb-8 text-center">
-          أطلب من أمازون خارج المغرب
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <a
-              href={amazonLinks.arabic}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-lg font-semibold transition-colors"
-            >
-              اصنع ثروتك - Amazon
-            </a>
-            <a
-              href={amazonLinks.french}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-lg font-semibold transition-colors"
-            >
-              Construis ta Richesse - Amazon
-            </a>
-            <a
-              href={amazonLinks.english}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white py-4 px-6 rounded-lg font-semibold transition-colors"
-            >
-              Build Your Wealth - Amazon
-            </a>
-          </div>
-        </div>
+      
 
         {/* Reviews Section - NO ADD BUTTON */}
         <div className="bg-white rounded-xl shadow-lg p-8">
@@ -294,4 +246,4 @@ const BookPage = () => {
   );
 };
 
-export default BookPage;
+export default BookSection;

@@ -103,7 +103,7 @@ const CoursesPage = () => {
                 <div className={`bg-gradient-to-r ${course.color} p-8 text-white`}>
                   <div className="flex items-center justify-between mb-4">
                     <IconComponent className="w-12 h-12" />
-                    <div className="text-3xl font-bold">{course.price}</div>
+                    {/* <div className="text-3xl font-bold">{course.price}</div> */}
                   </div>
                   <h2 className="text-2xl md:text-3xl font-bold mb-2">
                     {course.title}

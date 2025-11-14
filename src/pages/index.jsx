@@ -1,4 +1,5 @@
 
+import BookSection from "@/components/Home/Book";
 import Course from "@/components/Home/Course";
 import HappyClient from "@/components/Home/HappyClients";
 import HeroSection from "@/components/Home/HeroSection";
@@ -10,10 +11,10 @@ const index = () => {
   return (
     <>
       <HeroSection />
-      <HappyClient />
+    <BookSection/>
       <PricingComponent />
       <Course/>
-      <Feedback/>
+      {/* <Feedback/> */}
      
   
     </>
